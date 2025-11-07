@@ -1,3 +1,4 @@
+// Proteção de rota movida para middleware; página não valida sessão diretamente
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -9,13 +10,14 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import { ThemeToggle } from "@/components/ui/theme_toggle"
+import { LogoutButton } from "@/components/ui/logout_button"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-export default function Page() {
+export function DashboardPage() {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -53,6 +55,36 @@ export default function Page() {
           </div>
           <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min" />
         </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
+export default function Page() {
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <div className="flex h-12 items-center gap-2">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="mx-2 h-6" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Home</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
+            <LogoutButton />
+          </div>
+        </div>
+        {/* Conteúdo do dashboard aqui */}
       </SidebarInset>
     </SidebarProvider>
   )

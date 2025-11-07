@@ -14,16 +14,39 @@ import {
 import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "@/components/ui/theme_toggle"
 import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import { useState } from "react"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    router.push("/dashboard")
+    setError(null)
+    setLoading(true)
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const email = String(formData.get("email") || "")
+    const password = String(formData.get("password") || "")
+
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    })
+
+    setLoading(false)
+    if (res && !res.error) {
+      router.push("/dashboard")
+    } else {
+      setError("Credenciais inválidas. Verifique seu e-mail e senha.")
+    }
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -51,14 +74,22 @@ export function LoginForm({
             <FieldLabel htmlFor="email">E-mail</FieldLabel>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="seu@email.com"
               required
             />
           </Field>
           <Field>
-            <Button type="submit">Entrar</Button>
+            <FieldLabel htmlFor="password">Senha</FieldLabel>
+            <Input id="password" name="password" type="password" placeholder="••••••••" required />
           </Field>
+          <Field>
+            <Button type="submit" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
+          </Field>
+          {error ? (
+            <FieldDescription className="text-red-600">{error}</FieldDescription>
+          ) : null}
           <FieldSeparator>Ou</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
             <Button variant="outline" type="button">

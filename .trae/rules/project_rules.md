@@ -5,7 +5,7 @@
 Nome: (defina posteriormente — ex: DevHub, FolioAPI, Portly)  
 Descrição:  
 Plataforma de gerenciamento de portfólios e blogs para desenvolvedores e criadores de conteúdo.  
-O usuário (autenticado via Supabase) poderá gerenciar seu portfólio e/ou blog e consumir seus dados via API REST autenticada por chave secreta (API Key).
+O usuário (autenticado via NextAuth) poderá gerenciar seu portfólio e/ou blog e consumir seus dados via API REST autenticada por chave secreta (API Key).
 
 ---
 
@@ -15,13 +15,13 @@ O usuário (autenticado via Supabase) poderá gerenciar seu portfólio e/ou blog
 |--------|--------|--------------|
 | Next.js 15 (App Router) | Framework full-stack React | Suporte a SSR/ISR e rotas de API |
 | TypeScript | Tipagem estática e segurança | Configurar `strict: true` |
-| Prisma ORM | Acesso ao banco de dados (Supabase Postgres) | Schema definido em `/prisma/schema.prisma` |
-| Supabase | Autenticação e banco de dados Postgres | Uso de Auth (login/admin) e DB |
+| Prisma ORM | Acesso ao banco de dados (Postgres/Supabase Postgres) | Schema definido em `/prisma/schema.prisma` |
+| NextAuth | Autenticação e sessões | Usar Prisma Adapter; estratégia JWT ou DB sessions |
+| Supabase Postgres (DB) | Banco de dados gerenciado (opcional) | Usado apenas como Postgres; sem Supabase Auth |
 | Shadcn/UI + TailwindCSS | Componentes e estilização moderna | Interface do dashboard e formulários |
 | Zod | Validação de dados | Usado em rotas, formulários e inputs da API |
 | Axios | Consumo de APIs externas ou internas | Preferencial em clientes REST |
 | React Hook Form | Controle de formulários | Integração com Zod para validação |
-| NextAuth (opcional) | Caso precise autenticação via OAuth | Pode ser substituído pelo Supabase Auth |
 | Bcrypt / JWT | Criptografia e autenticação por API Key | Segurança de rotas protegidas |
 
 ---
@@ -30,8 +30,9 @@ O usuário (autenticado via Supabase) poderá gerenciar seu portfólio e/ou blog
 
 app/  
 - (auth)/  
-  Contém as rotas de autenticação do sistema (login, criação de usuários administradores).  
-  Todas as rotas devem estar protegidas e seguir as regras de acesso baseadas em roles (admin, user).
+  Contém a experiência de autenticação (páginas de login e fluxo de credenciais/OAuth via NextAuth).  
+  Todas as rotas devem estar protegidas e seguir as regras de acesso baseadas em roles (admin, user).  
+  NextAuth handler em `app/api/auth/[...nextauth]/route.ts`.
 
 - (dashboard)/  
   Área autenticada do usuário.  
@@ -47,7 +48,7 @@ app/
   - v1/  
     - portfolio/ → Endpoints GET autenticados via cabeçalho x-api-key  
     - blog/ → Endpoints GET autenticados via cabeçalho x-api-key  
-  - auth/ → Endpoints internos de login, logout e criação de usuários (apenas admin)
+  - auth/ → Endpoints internos apenas para criação/gestão de usuários (apenas admin); login/logout são geridos pelo NextAuth em `app/api/auth/[...nextauth]/route.ts`.
 
 - layout.tsx  
   Layout global da aplicação.  
@@ -78,8 +79,8 @@ components/
 
 lib/  
 - prisma.ts → Conexão singleton com o Prisma ORM.  
-- supabase_client.ts → Instância do Supabase configurada.  
-- auth.ts → Middlewares e validações de tokens e API Keys.  
+- supabase_client.ts → (Opcional) Instância do Supabase caso use SDK; preferir acesso via Prisma.  
+- auth.ts → Integração com NextAuth (helpers), middlewares e validações de tokens e API Keys.  
 - validation/ → Schemas de validação com Zod.  
 - utils/ → Funções utilitárias puras e genéricas.  
 - constants.ts → Constantes globais do sistema.  
@@ -122,6 +123,8 @@ tests/
 - Armazene senhas com bcrypt e valide tokens com JWT.  
 - Garanta que apenas administradores possam criar novos usuários.  
 - Usuários podem alterar apenas seus próprios dados.  
+ - Autenticação e sessões devem ser geridas pelo NextAuth com Prisma Adapter (Postgres/Supabase Postgres).  
+ - Preferir estratégia JWT do NextAuth para ambientes serverless; sessions em DB são opcionais conforme necessidade.  
 
 ### Lógica de Negócio
 - Um usuário pode ter:  
