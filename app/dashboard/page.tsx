@@ -28,7 +28,7 @@ export async function DashboardPage() {
       created_at: true,
       updated_at: true,
       api_keys: { select: { id: true, is_active: true } },
-      portfolio: {
+      portfolios: {
         select: {
           id: true,
           title: true,
@@ -38,7 +38,7 @@ export async function DashboardPage() {
           pages: { select: { id: true } },
         },
       },
-      blog: {
+      blogs: {
         select: {
           id: true,
           title: true,
@@ -65,20 +65,19 @@ export async function DashboardPage() {
   const apiKeysTotal = user.api_keys.length
   const apiKeysAtivas = user.api_keys.filter((k) => k.is_active).length
 
-  const portfolioExists = !!user.portfolio
-  const portfolioTitle = user.portfolio?.title ?? "—"
-  const portfolioProjects = user.portfolio?.projects.length ?? 0
-  const portfolioExperiences = user.portfolio?.experiences.length ?? 0
-  const portfolioSocials = user.portfolio?.socials.length ?? 0
-  const portfolioPages = user.portfolio?.pages.length ?? 0
+  const portfolios = user.portfolios ?? []
+  const portfolioCount = portfolios.length
+  const portfolioProjects = portfolios.reduce((sum, p) => sum + p.projects.length, 0)
+  const portfolioExperiences = portfolios.reduce((sum, p) => sum + p.experiences.length, 0)
+  const portfolioSocials = portfolios.reduce((sum, p) => sum + p.socials.length, 0)
+  const portfolioPages = portfolios.reduce((sum, p) => sum + p.pages.length, 0)
 
-  const blogExists = !!user.blog
-  const blogTitle = user.blog?.title ?? "—"
-  const blogPosts = user.blog?.posts.length ?? 0
-  const blogCategories = user.blog?.categories.length ?? 0
+  const blogs = user.blogs ?? []
+  const blogPosts = blogs.reduce((sum, b) => sum + b.posts.length, 0)
+  const blogCategories = blogs.reduce((sum, b) => sum + b.categories.length, 0)
 
   const portfolioChartItems = [
-    { key: "portfolios", label: "Portfólios", value: portfolioExists ? 1 : 0 },
+    { key: "portfolios", label: "Portfólios", value: portfolioCount },
     { key: "experiences", label: "Experiências", value: portfolioExperiences },
     { key: "projects", label: "Projetos", value: portfolioProjects },
     { key: "pages", label: "Páginas", value: portfolioPages },

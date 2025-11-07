@@ -26,8 +26,8 @@ model User {
   avatar_url   String?
   bio          String?
   api_keys     ApiKey[]
-  portfolio    Portfolio?
-  blog         Blog?
+  portfolios   Portfolio[]
+  blogs        Blog[]
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
 }
@@ -46,7 +46,7 @@ model ApiKey {
 
 model Portfolio {
   id              String           @id @default(uuid())
-  user_id         String           @unique
+  user_id         String
   title           String
   subtitle        String?
   hero            Hero?
@@ -186,7 +186,7 @@ model Page {
 
 model Blog {
   id            String         @id @default(uuid())
-  user_id       String         @unique
+  user_id       String
   title         String
   subtitle      String?
   posts         Post[]

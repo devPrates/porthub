@@ -21,15 +21,18 @@ async function main() {
     },
   });
 
-  const portfolio = await prisma.portfolio.upsert({
-    where: { user_id: user.id },
-    update: {},
-    create: {
-      user_id: user.id,
-      title: "Meu Portfólio",
-      subtitle: "Dev Full-Stack",
-    },
+  let portfolio = await prisma.portfolio.findFirst({
+    where: { user_id: user.id, title: "Meu Portfólio" },
   });
+  if (!portfolio) {
+    portfolio = await prisma.portfolio.create({
+      data: {
+        user_id: user.id,
+        title: "Meu Portfólio",
+        subtitle: "Dev Full-Stack",
+      },
+    });
+  }
 
   const hero = await prisma.hero.upsert({
     where: { portfolio_id: portfolio.id },
@@ -140,11 +143,14 @@ async function main() {
     },
   });
 
-  const blog = await prisma.blog.upsert({
-    where: { user_id: user.id },
-    update: {},
-    create: { user_id: user.id, title: "Meu Blog", subtitle: "Notas e tutoriais" },
+  let blog = await prisma.blog.findFirst({
+    where: { user_id: user.id, title: "Meu Blog" },
   });
+  if (!blog) {
+    blog = await prisma.blog.create({
+      data: { user_id: user.id, title: "Meu Blog", subtitle: "Notas e tutoriais" },
+    });
+  }
 
   const category = await prisma.category.upsert({
     where: { blog_id_slug: { blog_id: blog.id, slug: "typescript" } },
