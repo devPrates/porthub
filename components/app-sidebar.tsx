@@ -63,8 +63,13 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`)
+  const isActive = (href: string, exact = false) => {
+    if (exact) {
+      // Match apenas a rota exata (considerando possível barra final)
+      return pathname === href || pathname === `${href}`.replace(/\/$/, "") + "/"
+    }
+    return pathname === href || pathname.startsWith(`${href}/`)
+  }
   const { data: session } = useSession()
   const role = (session?.user as any)?.role as "ADMIN" | "USER" | undefined
 
@@ -108,14 +113,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupLabel className="font-semibold">Portfolio</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard")} className="font-medium">
+              <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/dashboard", true)} className="font-medium">
                 <a href="/dashboard">
                   <Home />
                   <span>Visão Geral</span>
                 </a>
               </SidebarMenuButton>
-            </SidebarMenuItem>
+              </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/hero")} className="font-medium">
                 <a href="/dashboard/portfolio/hero">

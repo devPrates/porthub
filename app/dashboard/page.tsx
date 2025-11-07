@@ -1,91 +1,126 @@
 // Proteção de rota movida para middleware; página não valida sessão diretamente
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import { ThemeToggle } from "@/components/ui/theme_toggle"
-import { LogoutButton } from "@/components/ui/logout_button"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+// Conteúdo do dashboard; layout com sidebar já é fornecido por app/dashboard/layout.tsx
 
-export function DashboardPage() {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="ml-auto px-4">
-            <ThemeToggle />
-          </div>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-          </div>
-          <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min" />
+import { prisma } from "@/lib/prisma"
+import { getSession } from "@/lib/auth"
+import { redirect } from "next/navigation"
+import HeroBanner from "@/components/dashboard/hero_banner"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import StatsBarChart from "@/components/dashboard/stats_bar_chart"
+
+export async function DashboardPage() {
+  const session = await getSession()
+  const userId = (session?.user as any)?.id as string | undefined
+  if (!userId) {
+    // Proteção adicional: caso middleware não intercepte
+    return redirect("/")
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      avatar_url: true,
+      bio: true,
+      created_at: true,
+      updated_at: true,
+      api_keys: { select: { id: true, is_active: true } },
+      portfolio: {
+        select: {
+          id: true,
+          title: true,
+          projects: { select: { id: true } },
+          experiences: { select: { id: true } },
+          socials: { select: { id: true } },
+          pages: { select: { id: true } },
+        },
+      },
+      blog: {
+        select: {
+          id: true,
+          title: true,
+          posts: { select: { id: true } },
+          categories: { select: { id: true } },
+        },
+      },
+    },
+  })
+
+  if (!user) {
+    return (
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="rounded-xl border p-6">
+          <h2 className="text-lg font-semibold">Erro ao carregar dados</h2>
+          <p className="text-sm text-muted-foreground">
+            Não foi possível obter informações do usuário.
+          </p>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    )
+  }
+
+  const apiKeysTotal = user.api_keys.length
+  const apiKeysAtivas = user.api_keys.filter((k) => k.is_active).length
+
+  const portfolioExists = !!user.portfolio
+  const portfolioTitle = user.portfolio?.title ?? "—"
+  const portfolioProjects = user.portfolio?.projects.length ?? 0
+  const portfolioExperiences = user.portfolio?.experiences.length ?? 0
+  const portfolioSocials = user.portfolio?.socials.length ?? 0
+  const portfolioPages = user.portfolio?.pages.length ?? 0
+
+  const blogExists = !!user.blog
+  const blogTitle = user.blog?.title ?? "—"
+  const blogPosts = user.blog?.posts.length ?? 0
+  const blogCategories = user.blog?.categories.length ?? 0
+
+  const portfolioChartItems = [
+    { key: "portfolios", label: "Portfólios", value: portfolioExists ? 1 : 0 },
+    { key: "experiences", label: "Experiências", value: portfolioExperiences },
+    { key: "projects", label: "Projetos", value: portfolioProjects },
+    { key: "pages", label: "Páginas", value: portfolioPages },
+    { key: "socials", label: "Social Links", value: portfolioSocials },
+  ]
+
+  const blogChartItems = [
+    { key: "posts", label: "Posts", value: blogPosts },
+    { key: "categories", label: "Categorias", value: blogCategories },
+  ]
+
+  return (
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
+      {/* Hero */}
+      <HeroBanner
+        title={`Olá, ${user.name ?? "Usuário"}`}
+        subtitle="Bem-vindo à sua dashboard. Veja abaixo o resumo visual do seu conteúdo."
+      />
+
+      {/* Grid responsivo: empilha no mobile, duas colunas em telas grandes */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm text-muted-foreground">Resumo do portfólio</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[280px] md:h-[320px] flex items-center">
+            <StatsBarChart items={portfolioChartItems} className="aspect-auto w-fit" />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm text-muted-foreground">Resumo do blog</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[280px] md:h-[320px] flex items-center">
+            <StatsBarChart items={blogChartItems} className="aspect-auto w-fit" />
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }
 export default function Page() {
-
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <div className="flex h-12 items-center gap-2">
-          <SidebarTrigger />
-          <Separator orientation="vertical" className="mx-2 h-6" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Home</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <div className="ml-auto flex items-center gap-2">
-            <ThemeToggle />
-            <LogoutButton />
-          </div>
-        </div>
-        {/* Conteúdo do dashboard aqui */}
-      </SidebarInset>
-    </SidebarProvider>
-  )
+  return <DashboardPage />
 }
