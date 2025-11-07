@@ -74,14 +74,21 @@ async function main() {
   });
 
   const project = await prisma.project.upsert({
-    where: { portfolio_id_slug: { portfolio_id: portfolio.id, slug: "primeiro-projeto" } },
+    where: { user_id_slug: { user_id: user.id, slug: "primeiro-projeto" } },
     update: {},
     create: {
-      portfolio_id: portfolio.id,
+      user_id: user.id,
       slug: "primeiro-projeto",
       title: "Primeiro Projeto",
       description: "Projeto exemplo com TypeScript",
     },
+  });
+
+  // Vincula o projeto ao portfólio via tabela de junção
+  await prisma.portfolioProject.upsert({
+    where: { portfolio_id_project_id: { portfolio_id: portfolio.id, project_id: project.id } },
+    update: {},
+    create: { portfolio_id: portfolio.id, project_id: project.id },
   });
 
   await prisma.projectTech.upsert({

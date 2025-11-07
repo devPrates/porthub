@@ -9,7 +9,6 @@ import {
   Key,
   Home,
   Layout,
-  Info,
   FolderKanban,
   Briefcase,
   Building,
@@ -131,20 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/hero")} className="font-medium">
-                <a href="/dashboard/portfolio/hero">
-                  <Home />
-                  <span>Hero</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/about")} className="font-medium">
-                <a href="/dashboard/portfolio/about">
-                  <Info />
-                  <span>About</span>
-                </a>
-              </SidebarMenuButton>
+              {/* Removido: entradas Hero e About do AppSidebar */}
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/projects")} className="font-medium">
