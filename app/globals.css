@@ -121,3 +121,25 @@
   }
 }
 
+/* Utilitário: borda tracejada grande e espaçada usando currentColor */
+.dashed-large-border {
+  position: relative;
+}
+.dashed-large-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  pointer-events: none;
+  /* Quatro linhas nas bordas usando gradientes repetidos */
+  background:
+    /* topo */
+    repeating-linear-gradient(90deg, currentColor 0 10px, transparent 10px 22px) top left / 100% 3px no-repeat,
+    /* base */
+    repeating-linear-gradient(90deg, currentColor 0 10px, transparent 10px 22px) bottom left / 100% 3px no-repeat,
+    /* esquerda */
+    repeating-linear-gradient(0deg, currentColor 0 10px, transparent 10px 22px) top left / 3px 100% no-repeat,
+    /* direita */
+    repeating-linear-gradient(0deg, currentColor 0 10px, transparent 10px 22px) top right / 3px 100% no-repeat;
+}
+

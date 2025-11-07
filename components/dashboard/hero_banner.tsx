@@ -11,7 +11,7 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ title, subtitle, rightIcon, className }: HeroBannerProps) {
   return (
-    <div className={cn("rounded-xl border p-8 bg-linear-to-br from-indigo-500/10 via-transparent to-purple-500/10", className)}>
+    <div className={cn("mt-6 md:mt-8 rounded-xl border p-8 bg-linear-to-br from-indigo-500/10 via-transparent to-purple-500/10", className)}>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold">{title}</h1>

@@ -6,6 +6,8 @@ import { columns, type UserRow } from "./columns"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { FileDown, FileUp, Filter, Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import NewUserForm from "./new_user_form"
 
 export default function UsersDataTable({ data }: { data: UserRow[] }) {
   const [query, setQuery] = useState("")
@@ -28,6 +30,8 @@ export default function UsersDataTable({ data }: { data: UserRow[] }) {
     })
     return arr
   }, [filtered, sortAsc])
+
+  const [openNew, setOpenNew] = useState(false)
 
   return (
     <div className="space-y-3">
@@ -67,10 +71,17 @@ export default function UsersDataTable({ data }: { data: UserRow[] }) {
           >
             <FileDown className="h-4 w-4" />
           </Button>
-          <Button aria-label="Adicionar usuário">
-            <Plus className="h-4 w-4" />
-            Novo
-          </Button>
+          <Dialog open={openNew} onOpenChange={setOpenNew}>
+            <DialogTrigger asChild>
+              <Button aria-label="Adicionar usuário">
+                <Plus className="h-4 w-4" />
+                Novo
+              </Button>
+            </DialogTrigger>
+            <DialogContent aria-label="Dialog de criação de usuário">
+              <NewUserForm onSuccess={() => setOpenNew(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <DataTable columns={columns} data={sorted} />

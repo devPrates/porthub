@@ -44,24 +44,11 @@ export default async function AdminUsersPage() {
         rightIcon={<UserIcon className="h-6 w-6" />}
       />
 
-      <section aria-labelledby="admin-users-list-title" className="space-y-2">
-        <h2 id="admin-users-list-title" className="text-lg font-medium">
-          Lista de Usuários
-        </h2>
+      <section aria-label="Lista de Usuários" className="space-y-2">
         <UsersDataTable data={tableData} />
       </section>
 
-      <section aria-labelledby="admin-users-placeholders-title" className="space-y-2">
-        <h2 id="admin-users-placeholders-title" className="text-lg font-medium">
-          Elementos (placeholder)
-        </h2>
-        <div className="text-sm text-muted-foreground">
-          • Listagem de usuários
-          <br />• Criar novo usuário
-          <br />• Editar usuário existente
-          <br />• Excluir usuário
-        </div>
-      </section>
+      {/* seção de placeholders removida */}
     </main>
   )
 }

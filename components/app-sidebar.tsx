@@ -8,6 +8,7 @@ import {
   User as UserIcon,
   Key,
   Home,
+  Layout,
   Info,
   FolderKanban,
   Briefcase,
@@ -109,9 +110,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenu>
           </SidebarGroup>
         )}
-        {/* Portfolio */}
+        {/* Portifolio */}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold">Portfolio</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold">Portifolio</SidebarGroupLabel>
           <SidebarMenu>
               <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={isActive("/dashboard", true)} className="font-medium">
@@ -121,6 +122,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </a>
               </SidebarMenuButton>
               </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/portifolio")} className="font-medium">
+                <a href="/dashboard/portifolio">
+                  <Layout />
+                  <span>Portifolio</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/hero")} className="font-medium">
                 <a href="/dashboard/portfolio/hero">
