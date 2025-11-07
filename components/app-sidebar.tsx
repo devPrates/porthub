@@ -35,13 +35,8 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
 
-// Dados da UI (apenas visuais; rotas devem existir no app/(dashboard)).
+// Dados de UI auxiliares
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -72,6 +67,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
   const { data: session } = useSession()
   const role = (session?.user as any)?.role as "ADMIN" | "USER" | undefined
+  const userProps = {
+    name: session?.user?.name ?? "Usuário",
+    email: session?.user?.email ?? "—",
+    avatar: (session?.user as any)?.avatar_url ?? "",
+  }
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -250,7 +250,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userProps} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

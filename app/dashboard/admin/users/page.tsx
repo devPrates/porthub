@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation"
 import { getSession } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+import HeroBanner from "@/components/dashboard/hero_banner"
+import { User as UserIcon } from "lucide-react"
+import UsersDataTable from "./data_table"
 
 export default async function AdminUsersPage() {
   const session = await getSession()
@@ -10,25 +14,41 @@ export default async function AdminUsersPage() {
     return notFound()
   }
 
+  // Buscar usuários reais do banco (sem dados mockados)
+  const users = await prisma.user.findMany({
+    orderBy: { created_at: "desc" },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      avatar_url: true,
+      created_at: true,
+    },
+  })
+
+  const tableData = users.map((u) => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    role: u.role,
+    avatar_url: u.avatar_url ?? null,
+    created_at: u.created_at.toISOString(),
+  }))
+
   return (
     <main className="flex flex-col gap-4 p-4" aria-labelledby="admin-users-title">
-      <header>
-        <h1 id="admin-users-title" className="text-2xl font-semibold">
-          Usuários (Admin)
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Página dedicada ao gerenciamento de usuários. Em breve: listagem, criação,
-          edição e exclusão.
-        </p>
-      </header>
+      <HeroBanner
+        title="Usuários (Admin)"
+        subtitle="Página dedicada ao gerenciamento de usuários. Abaixo, a listagem atual de usuários."
+        rightIcon={<UserIcon className="h-6 w-6" />}
+      />
 
-      <section aria-labelledby="admin-users-overview-title" className="space-y-2">
-        <h2 id="admin-users-overview-title" className="text-lg font-medium">
-          Visão Geral
+      <section aria-labelledby="admin-users-list-title" className="space-y-2">
+        <h2 id="admin-users-list-title" className="text-lg font-medium">
+          Lista de Usuários
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Esta seção permitirá operações CRUD sobre usuários do sistema.
-        </p>
+        <UsersDataTable data={tableData} />
       </section>
 
       <section aria-labelledby="admin-users-placeholders-title" className="space-y-2">
