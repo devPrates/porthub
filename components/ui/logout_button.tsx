@@ -2,15 +2,34 @@
 
 import { Button } from "@/components/ui/button"
 import { signOut } from "next-auth/react"
+import { useState } from "react"
+import { Spinner } from "@/components/ui/spinner"
 
 export function LogoutButton() {
+  const [loading, setLoading] = useState(false)
   return (
     <Button
-      variant="outline"
+      variant="destructive"
+      type="button"
       aria-label="Sair"
-      onClick={() => signOut({ callbackUrl: "/" })}
+      disabled={loading}
+      onClick={async () => {
+        try {
+          setLoading(true)
+          await signOut({ callbackUrl: "/" })
+        } finally {
+          setLoading(false)
+        }
+      }}
     >
-      Sair
+      {loading ? (
+        <>
+          <Spinner className="mr-2" />
+          Saindo...
+        </>
+      ) : (
+        "Sair"
+      )}
     </Button>
   )
 }

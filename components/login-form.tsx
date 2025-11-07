@@ -16,6 +16,7 @@ import { ThemeToggle } from "@/components/ui/theme_toggle"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { useState } from "react"
+import { Spinner } from "@/components/ui/spinner"
 
 export function LoginForm({
   className,
@@ -85,7 +86,16 @@ export function LoginForm({
             <Input id="password" name="password" type="password" placeholder="••••••••" required />
           </Field>
           <Field>
-            <Button type="submit" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? (
+                <>
+                  <Spinner className="mr-2" />
+                  Entrando...
+                </>
+              ) : (
+                "Entrar"
+              )}
+            </Button>
           </Field>
           {error ? (
             <FieldDescription className="text-red-600">{error}</FieldDescription>
