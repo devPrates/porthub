@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button"
 import { signOut } from "next-auth/react"
 import { useState } from "react"
 import { Spinner } from "@/components/ui/spinner"
+import { Power } from "lucide-react"
 
 export function LogoutButton() {
   const [loading, setLoading] = useState(false)
   return (
     <Button
-      variant="destructive"
+      variant="softDestructive"
+      size="icon"
       type="button"
       aria-label="Sair"
       disabled={loading}
@@ -22,14 +24,7 @@ export function LogoutButton() {
         }
       }}
     >
-      {loading ? (
-        <>
-          <Spinner className="mr-2" />
-          Saindo...
-        </>
-      ) : (
-        "Sair"
-      )}
+      {loading ? <Spinner /> : <Power className="h-4 w-4" />}
     </Button>
   )
 }

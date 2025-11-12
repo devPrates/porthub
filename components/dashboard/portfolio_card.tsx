@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button"
 import { prisma } from "@/lib/prisma"
 import { cn, toSlug } from "@/lib/utils"
-import { FolderKanban, Pencil, Trash2, Layers, Briefcase, Share2, FileText } from "lucide-react"
+import { FolderKanban, SquarePen, Trash2, Layers, Briefcase, Share2, FileText } from "lucide-react"
 
 interface PortfolioCardProps {
   portfolio: Portfolio & {
@@ -25,7 +25,7 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
         "bg-linear-to-b from-indigo-500/5 via-transparent to-indigo-500/5",
         className
       )}
-      aria-label={`Portifolio ${title}`}
+      aria-label={`Portfólio ${title}`}
     >
       <CardHeader className="border-b">
         <div className="flex items-center gap-3">
@@ -39,7 +39,7 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
         </div>
       </CardHeader>
       <CardContent className="py-4 space-y-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" role="list" aria-label="Resumo do portifolio">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" role="list" aria-label="Resumo do portfólio">
           <div className="flex items-center justify-between rounded-md border border-indigo-500/20 bg-indigo-500/5 p-2" role="listitem" aria-label="Projetos">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/10 text-indigo-600 border border-indigo-500/20">
               <Layers className="h-3.5 w-3.5" aria-hidden="true" />
@@ -70,13 +70,13 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
         </div>
       </CardContent>
       <CardFooter className="justify-end gap-2 border-t">
-        <Button asChild variant="outline" size="sm" aria-label="Editar portifolio">
-          <Link href={`/dashboard/portifolio/${slug}`}>
-            <Pencil className="mr-1" /> Editar
+        <Button asChild size="sm" aria-label="Editar portfólio" variant="softWarning">
+          <Link href={`/dashboard/portfolio/${slug}`}>
+            <SquarePen className="mr-1" /> Editar
           </Link>
         </Button>
         <form action={deletePortfolio.bind(null, portfolio.id)}>
-          <Button type="submit" variant="destructive" size="sm" aria-label="Excluir portifolio">
+          <Button type="submit" variant="softDestructive" size="sm" aria-label="Excluir portfólio">
             <Trash2 className="mr-1" /> Excluir
           </Button>
         </form>
@@ -88,5 +88,5 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
 export async function deletePortfolio(id: string) {
   "use server"
   await prisma.portfolio.delete({ where: { id } })
-  revalidatePath("/dashboard/portifolio")
+  revalidatePath("/dashboard/portfolio")
 }

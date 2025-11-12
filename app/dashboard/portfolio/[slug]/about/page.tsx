@@ -49,15 +49,15 @@ export default async function AboutPage({ params }: { params: { slug: string } }
       },
     })
 
-    revalidatePath(`/dashboard/portifolio/${slug}/about`)
-    redirect(`/dashboard/portifolio/${slug}/about`)
+    revalidatePath(`/dashboard/portfolio/${slug}/about`)
+    redirect(`/dashboard/portfolio/${slug}/about`)
   }
 
   async function deleteAbout() {
     "use server"
     await prisma.about.delete({ where: { portfolio_id: portfolioId } })
-    revalidatePath(`/dashboard/portifolio/${slug}/about`)
-    redirect(`/dashboard/portifolio/${slug}/about`)
+    revalidatePath(`/dashboard/portfolio/${slug}/about`)
+    redirect(`/dashboard/portfolio/${slug}/about`)
   }
 
   return (
@@ -93,7 +93,7 @@ export default async function AboutPage({ params }: { params: { slug: string } }
         </CardContent>
         <CardFooter className="flex items-center gap-2">
           <Button asChild variant="secondary" aria-label="Voltar">
-            <Link href={`/dashboard/portifolio/${slug}`}>Voltar</Link>
+            <Link href={`/dashboard/portfolio/${slug}`}>Voltar</Link>
           </Button>
           {portfolio.about && (
             <form action={deleteAbout}>

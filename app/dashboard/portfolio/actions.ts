@@ -7,7 +7,7 @@ import { getSession } from "@/lib/auth"
 export async function createPortfolio(formData: FormData) {
   const session = await getSession()
   if (!session?.user || !(session.user as any).id) {
-    throw new Error("Não autenticado. Faça login para criar um portifolio.")
+    throw new Error("Não autenticado. Faça login para criar um portfólio.")
   }
 
   const userId = (session.user as any).id as string
@@ -35,5 +35,5 @@ export async function createPortfolio(formData: FormData) {
     },
   })
 
-  revalidatePath("/dashboard/portifolio")
+  revalidatePath("/dashboard/portfolio")
 }

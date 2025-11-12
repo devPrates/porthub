@@ -32,7 +32,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
     <main className="container mx-auto space-y-6" role="main">
       <HeroBanner
         title={portfolio.title}
-        subtitle={portfolio.subtitle ?? "Gerencie seu portifolio"}
+        subtitle={portfolio.subtitle ?? "Gerencie seu portfólio"}
         rightIcon={<FolderKanban className="h-6 w-6" aria-hidden="true" />}
       />
       {/* GRID DE CARDS */}
@@ -71,7 +71,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
           <Separator />
           <CardFooter className="flex gap-2 justify-end pt-3">
             <Button asChild aria-label="Gerenciar Hero">
-              <Link href={`/dashboard/portifolio/${slug}/hero`}>Gerenciar Hero</Link>
+              <Link href={`/dashboard/portfolio/${slug}/hero`}>Gerenciar Hero</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -112,7 +112,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
           <Separator />
           <CardFooter className="flex gap-2 justify-end pt-3">
             <Button asChild aria-label="Gerenciar About">
-              <Link href={`/dashboard/portifolio/${slug}/about`}>Gerenciar About</Link>
+              <Link href={`/dashboard/portfolio/${slug}/about`}>Gerenciar About</Link>
             </Button>
           </CardFooter>
         </Card>

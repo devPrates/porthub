@@ -38,15 +38,15 @@ export default async function HeroPage({ params }: { params: { slug: string } })
       create: { portfolio_id: portfolioId, name: parsed.data.name, description: parsed.data.description ?? null },
     })
 
-    revalidatePath(`/dashboard/portifolio/${slug}/hero`)
-    redirect(`/dashboard/portifolio/${slug}/hero`)
+    revalidatePath(`/dashboard/portfolio/${slug}/hero`)
+    redirect(`/dashboard/portfolio/${slug}/hero`)
   }
 
   async function deleteHero() {
     "use server"
     await prisma.hero.delete({ where: { portfolio_id: portfolioId } })
-    revalidatePath(`/dashboard/portifolio/${slug}/hero`)
-    redirect(`/dashboard/portifolio/${slug}/hero`)
+    revalidatePath(`/dashboard/portfolio/${slug}/hero`)
+    redirect(`/dashboard/portfolio/${slug}/hero`)
   }
 
   return (
@@ -78,7 +78,7 @@ export default async function HeroPage({ params }: { params: { slug: string } })
         </CardContent>
         <CardFooter className="flex items-center gap-2">
           <Button asChild variant="secondary" aria-label="Voltar">
-            <Link href={`/dashboard/portifolio/${slug}`}>Voltar</Link>
+            <Link href={`/dashboard/portfolio/${slug}`}>Voltar</Link>
           </Button>
           {portfolio.hero && (
             <form action={deleteHero}>

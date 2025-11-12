@@ -55,7 +55,7 @@ function RowActions({ user }: { user: UserRow }) {
             variant="outline"
             size="icon"
             aria-label="Editar usuário"
-            className="border-0 bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-100 dark:hover:bg-amber-800 focus-visible:ring-amber-500/30"
+            className="border-0 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 dark:bg-yellow-900/40 dark:text-yellow-100 dark:hover:bg-yellow-800 focus-visible:ring-yellow-500/30"
           >
             <Edit className="h-4 w-4" />
           </Button>

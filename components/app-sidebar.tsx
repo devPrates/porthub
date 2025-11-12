@@ -109,9 +109,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenu>
           </SidebarGroup>
         )}
-        {/* Portifolio */}
+        {/* Portfólio */}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold">Portifolio</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold">Portfólio</SidebarGroupLabel>
           <SidebarMenu>
               <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={isActive("/dashboard", true)} className="font-medium">
@@ -122,10 +122,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
               </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portifolio")} className="font-medium">
-                <a href="/dashboard/portifolio">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio", true)} className="font-medium">
+                <a href="/dashboard/portfolio">
                   <Layout />
-                  <span>Portifolio</span>
+                  <span>Portfólio</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

@@ -63,3 +63,17 @@ export const authOptions: NextAuthOptions = {
 }
 
 export const getSession = () => getServerSession(authOptions)
+export async function getSessionSafe() {
+  try {
+    return await getServerSession(authOptions)
+  } catch {
+    return null
+  }
+}
+
+export async function validateApiKey(apiKey: string) {
+  if (!apiKey) return null
+  const record = await prisma.apiKey.findUnique({ where: { key: apiKey }, include: { user: true } })
+  if (!record || !record.is_active) return null
+  return { userId: record.user_id }
+}

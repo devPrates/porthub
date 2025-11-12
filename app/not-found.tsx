@@ -1,11 +1,11 @@
-import { getSession } from "@/lib/auth"
+import { getSessionSafe } from "@/lib/auth"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { BackButton } from "@/components/ui/back_button"
 import { LockKeyhole, ArrowLeft, LogIn } from "lucide-react"
 
 export default async function NotFound() {
-  const session = await getSession()
+  const session = await getSessionSafe()
   const isAuthenticated = Boolean(session)
 
   return (

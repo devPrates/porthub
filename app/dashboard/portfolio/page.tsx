@@ -4,11 +4,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { prisma } from "@/lib/prisma"
 import { getSession } from "@/lib/auth"
-import { Plus } from "lucide-react"
-import PortfolioCreateDialog from "@/components/dashboard/portfolio_create_dialog"
+import { BookmarkPlus, FolderKanban } from "lucide-react"
+import Link from "next/link"
 import type { Prisma } from "@prisma/client"
 
-export default async function DashboardPortifolioPage() {
+export default async function DashboardPortfolioPage() {
   const session = await getSession()
   const userId = (session?.user as any)?.id as string | undefined
   let dbError: string | null = null
@@ -28,8 +28,8 @@ export default async function DashboardPortifolioPage() {
   return (
     <div className="container mx-auto space-y-6">
       <HeroBanner
-        title="Portifolio"
-        subtitle="Crie e gerencie seus portifolios no dashboard."
+        title="Portfólio"
+        subtitle="Crie e gerencie seus portfólios no dashboard."
       />
 
       {dbError && (
@@ -38,19 +38,22 @@ export default async function DashboardPortifolioPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Card de criação: somente o botão interno é clicável */}
-        <Card
-          className="border-0 dashed-large-border text-emerald-700 max-w-[16rem] md:max-w-[18rem] bg-emerald-50/40 dark:bg-emerald-900/10 transition-colors hover:bg-emerald-100/60 dark:hover:bg-emerald-900/20"
-        >
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Card className="relative overflow-hidden max-w-[22rem] border-indigo-500/30 bg-linear-to-b from-indigo-500/10 via-transparent to-purple-500/10 hover:border-indigo-500/60 shadow-sm hover:shadow-md transition-all">
+          <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-indigo-500/10" />
           <CardContent className="flex flex-col items-center justify-center py-10">
-            <div className="h-12 w-12 flex items-center justify-center rounded-full border border-emerald-400/60 bg-emerald-500/10 text-emerald-700">
-              <Plus className="h-6 w-6" aria-hidden="true" />
+            <div className="h-12 w-12 flex items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/15 text-indigo-600">
+              <FolderKanban className="h-6 w-6" aria-hidden="true" />
             </div>
-            <span className="mt-3 text-base md:text-lg font-semibold">Criar Portifolio</span>
-            <span className="mt-1 text-xs text-muted-foreground">Comece um novo portifolio</span>
+            <span className="mt-3 text-base md:text-lg font-semibold">Cadastrar Portfólio</span>
+            <span className="mt-1 text-xs text-muted-foreground">Cadastre um novo portfólio</span>
             <div className="mt-4">
-              <PortfolioCreateDialog />
+              <Link href="/dashboard/portfolio/novo" aria-label="Cadastrar novo portfólio">
+                <Button>
+                  <BookmarkPlus />
+                  Cadastrar
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -62,7 +65,7 @@ export default async function DashboardPortifolioPage() {
         {portfolios.length === 0 && !dbError && (
           <Card className="max-w-[16rem] md:max-w-[18rem] bg-muted/30">
             <CardContent className="flex flex-col items-center justify-center py-8">
-              <span className="text-sm text-muted-foreground">Nenhum portifolio encontrado</span>
+              <span className="text-sm text-muted-foreground">Nenhum portfólio encontrado</span>
             </CardContent>
           </Card>
         )}

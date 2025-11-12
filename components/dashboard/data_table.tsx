@@ -34,13 +34,13 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className={"overflow-x-auto rounded-md border " + (className ?? "")}>
+    <div className={"overflow-x-auto rounded-md border shadow-sm " + (className ?? "")}> 
       <Table>
-        <TableHeader>
+        <TableHeader className="bg-neutral-100/60 dark:bg-neutral-800/40">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="hover:bg-transparent">
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
+                <TableHead key={header.id} className="py-3 text-sm font-medium text-neutral-900 dark:text-neutral-100">
                   {header.isPlaceholder
                     ? null
                     : flexRender(
