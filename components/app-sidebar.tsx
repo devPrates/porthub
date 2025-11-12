@@ -122,8 +122,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
               </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio", true)} className="font-medium">
-                <a href="/dashboard/portfolio">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolios")} className="font-medium">
+                <a href="/dashboard/portfolios">
                   <Layout />
                   <span>Portfólio</span>
                 </a>
@@ -133,48 +133,48 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {/* Removido: entradas Hero e About do AppSidebar */}
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/projects")} className="font-medium">
-                <a href="/dashboard/portfolio/projects">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/projects")} className="font-medium">
+                <a href="/dashboard/projects">
                   <FolderKanban />
                   <span>Projetos</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/experiences")} className="font-medium">
-                <a href="/dashboard/portfolio/experiences">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/experiences")} className="font-medium">
+                <a href="/dashboard/experiences">
                   <Briefcase />
                   <span>Experiências</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/companies")} className="font-medium">
-                <a href="/dashboard/portfolio/companies">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/companies")} className="font-medium">
+                <a href="/dashboard/companies">
                   <Building />
                   <span>Empresas</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/certificates")} className="font-medium">
-                <a href="/dashboard/portfolio/certificates">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/certificates")} className="font-medium">
+                <a href="/dashboard/certificates">
                   <Award />
                   <span>Certificados</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/socials")} className="font-medium">
-                <a href="/dashboard/portfolio/socials">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/socials")} className="font-medium">
+                <a href="/dashboard/socials">
                   <Share2 />
                   <span>Social Links</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/dashboard/portfolio/pages")} className="font-medium">
-                <a href="/dashboard/portfolio/pages">
+              <SidebarMenuButton asChild isActive={isActive("/dashboard/pages")} className="font-medium">
+                <a href="/dashboard/pages">
                   <FileText />
                   <span>Páginas</span>
                 </a>

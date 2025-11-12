@@ -9,7 +9,7 @@ export async function createSocial(formData: FormData) {
   if (!portfolio_id) throw new Error("Selecione um portfólio")
   if (!name || !url) throw new Error("Informe nome e URL")
   await prisma.socialLink.create({ data: { portfolio_id, name, url } })
-  revalidatePath("/dashboard/portfolio/socials")
+  revalidatePath("/dashboard/socials")
 }
 
 export async function updateSocial(formData: FormData) {
@@ -19,13 +19,12 @@ export async function updateSocial(formData: FormData) {
   if (!id) throw new Error("ID inválido")
   if (!name || !url) throw new Error("Informe nome e URL")
   await prisma.socialLink.update({ where: { id }, data: { name, url } })
-  revalidatePath("/dashboard/portfolio/socials")
+  revalidatePath("/dashboard/socials")
 }
 
 export async function deleteSocial(formData: FormData) {
   const id = String(formData.get("id") || "")
   if (!id) throw new Error("ID inválido")
   await prisma.socialLink.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio/socials")
+  revalidatePath("/dashboard/socials")
 }
-

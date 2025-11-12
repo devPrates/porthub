@@ -11,7 +11,7 @@ export async function createCompany(formData: FormData) {
   if (!experience_id) throw new Error("Selecione uma experiência")
   if (!name || !role_name) throw new Error("Informe nome e cargo")
   await prisma.company.create({ data: { experience_id, name, role_name, image_url, date_start: date_start ?? undefined } })
-  revalidatePath("/dashboard/portfolio/companies")
+  revalidatePath("/dashboard/companies")
 }
 export async function updateCompany(formData: FormData) {
   const id = String(formData.get("id") || "")
@@ -23,11 +23,11 @@ export async function updateCompany(formData: FormData) {
   if (!id) throw new Error("ID inválido")
   if (!name || !role_name) throw new Error("Informe nome e cargo")
   await prisma.company.update({ where: { id }, data: { name, role_name, image_url, date_start: date_start ?? undefined } })
-  revalidatePath("/dashboard/portfolio/companies")
+  revalidatePath("/dashboard/companies")
 }
 export async function deleteCompany(formData: FormData) {
   const id = String(formData.get("id") || "")
   if (!id) throw new Error("ID inválido")
   await prisma.company.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio/companies")
+  revalidatePath("/dashboard/companies")
 }

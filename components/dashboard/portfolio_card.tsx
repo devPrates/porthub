@@ -88,5 +88,5 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
 export async function deletePortfolio(id: string) {
   "use server"
   await prisma.portfolio.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio")
+  revalidatePath("/dashboard/portfolios")
 }

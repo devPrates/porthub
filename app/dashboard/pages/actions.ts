@@ -10,5 +10,5 @@ export async function createPage(formData: FormData) {
   if (!portfolio_id) throw new Error("Selecione um portfólio")
   if (!title) throw new Error("Informe o título")
   await prisma.page.create({ data: { portfolio_id, title, slug } })
-  revalidatePath("/dashboard/portfolio/pages")
+  revalidatePath("/dashboard/pages")
 }

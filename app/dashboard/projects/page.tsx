@@ -23,7 +23,6 @@ export default async function ProjectsPage() {
 
   const projects = await prisma.project.findMany({ where: { user_id: userId } })
 
-
   const rows: ProjectRow[] = projects.map((p) => ({
     id: p.id,
     title: p.title,

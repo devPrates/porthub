@@ -112,4 +112,3 @@ export default function CertificatesDataTable({ data, experiences }: { data: Cer
     </div>
   )
 }
-

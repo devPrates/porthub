@@ -83,4 +83,3 @@ export const columns: ColumnDef<SocialRow>[] = [
     size: 120,
   },
 ]
-

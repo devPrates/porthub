@@ -25,8 +25,6 @@ export async function createPortfolio(formData: FormData) {
     throw new Error("Subtítulo deve ter no máximo 180 caracteres.")
   }
 
-  // Permitir múltiplos portfólios por usuário: nenhuma verificação de unicidade por user_id
-
   await prisma.portfolio.create({
     data: {
       user_id: userId,
@@ -35,5 +33,5 @@ export async function createPortfolio(formData: FormData) {
     },
   })
 
-  revalidatePath("/dashboard/portfolio")
+  revalidatePath("/dashboard/portfolios")
 }

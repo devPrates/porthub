@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button"
 import { Field, FieldContent, FieldLabel, FieldError, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { createPortfolio } from "@/app/dashboard/portfolio/actions"
+import { createPortfolio } from "@/app/dashboard/portfolios/actions"
 
 export default function PortfolioCreateDialog() {
   const [open, setOpen] = useState(false)

@@ -13,7 +13,7 @@ export async function createCertificate(formData: FormData) {
   if (!name) throw new Error("Informe o nome")
   const slug = toSlug(name)
   await prisma.certificate.create({ data: { experience_id, name, slug, type: type as any, hours: hours || null, date_end } })
-  revalidatePath("/dashboard/portfolio/certificates")
+  revalidatePath("/dashboard/certificates")
 }
 export async function updateCertificate(formData: FormData) {
   const id = String(formData.get("id") || "")
@@ -26,11 +26,11 @@ export async function updateCertificate(formData: FormData) {
   if (!name) throw new Error("Informe o nome")
   const slug = toSlug(name)
   await prisma.certificate.update({ where: { id }, data: { name, slug, type: type as any, hours: hours || null, date_end } })
-  revalidatePath("/dashboard/portfolio/certificates")
+  revalidatePath("/dashboard/certificates")
 }
 export async function deleteCertificate(formData: FormData) {
   const id = String(formData.get("id") || "")
   if (!id) throw new Error("ID inválido")
   await prisma.certificate.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio/certificates")
+  revalidatePath("/dashboard/certificates")
 }

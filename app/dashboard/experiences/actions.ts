@@ -9,7 +9,7 @@ export async function createExperience(formData: FormData) {
   if (!portfolio_id) throw new Error("Selecione um portfólio")
   if (!title || title.length < 2) throw new Error("Título inválido")
   await prisma.experience.create({ data: { portfolio_id, title, subtitle, description } })
-  revalidatePath("/dashboard/portfolio/experiences")
+  revalidatePath("/dashboard/experiences")
 }
 export async function updateExperience(formData: FormData) {
   const id = String(formData.get("id") || "")
@@ -19,11 +19,11 @@ export async function updateExperience(formData: FormData) {
   if (!id) throw new Error("ID inválido")
   if (!title || title.length < 2) throw new Error("Título inválido")
   await prisma.experience.update({ where: { id }, data: { title, subtitle, description } })
-  revalidatePath("/dashboard/portfolio/experiences")
+  revalidatePath("/dashboard/experiences")
 }
 export async function deleteExperience(formData: FormData) {
   const id = String(formData.get("id") || "")
   if (!id) throw new Error("ID inválido")
   await prisma.experience.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio/experiences")
+  revalidatePath("/dashboard/experiences")
 }

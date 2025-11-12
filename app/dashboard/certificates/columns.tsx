@@ -95,4 +95,3 @@ export const columns: ColumnDef<CertificateRow>[] = [
     size: 120,
   },
 ]
-

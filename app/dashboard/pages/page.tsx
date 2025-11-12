@@ -39,13 +39,13 @@ export default async function PagesPage() {
     if (!portfolio_id) throw new Error("Selecione um portfólio")
     if (!title) throw new Error("Informe o título")
     await prisma.page.create({ data: { portfolio_id, title, slug } })
-    revalidatePath("/dashboard/portfolio/pages")
+    revalidatePath("/dashboard/pages")
   }
 
   async function deletePage(id: string) {
     "use server"
     await prisma.page.delete({ where: { id } })
-    revalidatePath("/dashboard/portfolio/pages")
+    revalidatePath("/dashboard/pages")
   }
 
   async function updatePage(id: string, formData: FormData) {
@@ -54,7 +54,7 @@ export default async function PagesPage() {
     const slug = toSlug(String(formData.get("slug") || title))
     if (!title) throw new Error("Informe o título")
     await prisma.page.update({ where: { id }, data: { title, slug } })
-    revalidatePath("/dashboard/portfolio/pages")
+    revalidatePath("/dashboard/pages")
   }
 
   return (

@@ -14,7 +14,7 @@ export async function createProject(formData: FormData) {
   if (!title || title.length < 2) throw new Error("Título inválido")
   const slug = toSlug(title)
   await prisma.project.create({ data: { user_id: userId, title, description, image_url, slug } })
-  revalidatePath("/dashboard/portfolio/projects")
+  revalidatePath("/dashboard/projects")
 }
 
 export async function updateProject(formData: FormData) {
@@ -26,12 +26,12 @@ export async function updateProject(formData: FormData) {
   if (!title || title.length < 2) throw new Error("Título inválido")
   const slug = toSlug(title)
   await prisma.project.update({ where: { id }, data: { title, description, image_url, slug } })
-  revalidatePath("/dashboard/portfolio/projects")
+  revalidatePath("/dashboard/projects")
 }
 
 export async function deleteProject(formData: FormData) {
   const id = String(formData.get("id") || "")
   if (!id) throw new Error("ID inválido")
   await prisma.project.delete({ where: { id } })
-  revalidatePath("/dashboard/portfolio/projects")
+  revalidatePath("/dashboard/projects")
 }

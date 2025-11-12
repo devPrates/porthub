@@ -97,4 +97,3 @@ export default function SocialsDataTable({ data, portfolios }: { data: SocialRow
     </div>
   )
 }
-
