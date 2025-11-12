@@ -6,6 +6,17 @@ import { Button } from "@/components/ui/button"
 import { prisma } from "@/lib/prisma"
 import { cn, toSlug } from "@/lib/utils"
 import { FolderKanban, SquarePen, Trash2, Layers, Briefcase, Share2, FileText } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
 
 interface PortfolioCardProps {
   portfolio: Portfolio & {
@@ -69,17 +80,37 @@ export default function PortfolioCard({ portfolio, className }: PortfolioCardPro
           </div>
         </div>
       </CardContent>
-      <CardFooter className="justify-end gap-2 border-t">
+      <CardFooter className="justify-end gap-2">
         <Button asChild size="sm" aria-label="Editar portfólio" variant="softWarning">
           <Link href={`/dashboard/portfolio/${slug}`}>
             <SquarePen className="mr-1" /> Editar
           </Link>
         </Button>
-        <form action={deletePortfolio.bind(null, portfolio.id)}>
-          <Button type="submit" variant="softDestructive" size="sm" aria-label="Excluir portfólio">
-            <Trash2 className="mr-1" /> Excluir
-          </Button>
-        </form>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="softDestructive" size="sm" aria-label="Excluir portfólio">
+              <Trash2 className="mr-1" /> Excluir
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Excluir portfólio?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta ação é permanente e removerá o portfólio e seus vínculos. Deseja continuar?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <form action={deletePortfolio.bind(null, portfolio.id)}>
+                <AlertDialogAction asChild>
+                  <Button type="submit" variant="destructive" size="sm" aria-label="Confirmar exclusão">
+                    Confirmar
+                  </Button>
+                </AlertDialogAction>
+              </form>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </CardFooter>
     </Card>
   )
